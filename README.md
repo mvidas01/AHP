@@ -30,9 +30,7 @@
 Например если вызвать CriterionPairwiceComparePost, после того как попарное сравнение критериев было закончено, будет выкинуто AHPStageException с AHPStage = AHPStage.AlternativePairwiseCompare. Это значит, что сейчас нужно провести попарное сранвение альтернатив, так веса критериев уже определены.
 
 <blockquote>
-
             IAHPService service = new AHPService();
-
 
             //2 criteria
             //2 alternatives
