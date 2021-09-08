@@ -29,3 +29,55 @@
 
 Например если вызвать CriterionPairwiceComparePost, после того как попарное сравнение критериев было закончено, будет выкинуто AHPStageException с AHPStage = AHPStage.AlternativePairwiseCompare. Это значит, что сейчас нужно провести попарное сранвение альтернатив, так веса критериев уже определены.
 
+<blockquote>
+
+            IAHPService service = new AHPService();
+
+
+            //2 criteria
+            //2 alternatives
+
+            InitialData initialData = new InitialData();
+            initialData.Criterias.Add("критерий 1");
+            initialData.Criterias.Add("критерий 2");
+            initialData.Alternatives.Add("альтернатива 1");
+            initialData.Alternatives.Add("альтернатива 2");
+
+            //set alternatives and criterias
+            service.SetInitialDataPost(initialData);
+
+            //criterion pairwise comparison 
+            CriterionCompareData criterionCompareData = new CriterionCompareData()
+            {
+                Row = 0, //row of pairwise comparison matrix
+                Column = 1, //column of pairwise comparison matrix
+                Value = 2 
+            };
+            
+            service.CriterionPairwiceComparePost(criterionCompareData);
+            service.CriterionAnalyze();
+
+            //alternavives criterion comparison
+            for(int i = 0; i < 2; i++)
+            {
+                AlternativeCompareData compareData = new AlternativeCompareData()
+                {
+                    Row = 0, //row of pairwise comparison matrix
+                    Column = 1, //column of pairwise comparison matrix
+                    Value = 2, 
+                    Index = i //number of matrix
+                };
+
+                service.AlternativePairwiceComparePost(compareData);
+            }
+
+            service.CalculateResult();
+
+            var result = service.GetResult();
+
+            Assert.Equal(0.667, Math.Round(result.ResultWeight[0], 3));
+            Assert.Equal(0.333, Math.Round(result.ResultWeight[1], 3));
+        
+
+</blockquote>
+
